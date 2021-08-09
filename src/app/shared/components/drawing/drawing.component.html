@@ -1,0 +1,22 @@
+<div class="canvas">
+  <canvas id="c" width="1500" height="400">
+  </canvas>
+  <div class="shapes">
+    <form [formGroup]="shapesForm">
+      <div>
+        <label for="width">
+          Rectangle Width:
+        </label>
+        <input id="width" type="text" formControlName="rect_width" width="70px;">
+      </div>
+      <div>
+        <label for="height">
+          Rectangle Height:
+        </label>
+        <input id="height" type="text" formControlName="rect_height" width="70px;">
+      </div>
+      <button class="button" type="submit" (click)="submit($event)">Change</button>
+    </form>
+  </div>
+</div>
+
