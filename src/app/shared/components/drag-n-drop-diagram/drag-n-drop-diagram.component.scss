@@ -1,0 +1,49 @@
+$border: 1px solid #1A5276;
+
+.container {
+  display: flex;
+  flex-direction: row;
+  .left-side {
+    width: 300px;
+    border: $border;
+    height: 98vh;
+
+    &__header {
+      margin: 5px 17px;
+      font-size: 20px;
+    }
+
+    hr {
+      width: 99.5%;
+    }
+
+    &__ul {
+      list-style-type: none;
+      padding: 15px;
+
+      li {
+        padding: 5px;
+        cursor: pointer;
+        border: none;
+        background-color: aquamarine;
+        border-radius: 7px;
+        margin-top: 5px;
+      }
+    }
+  }
+  .right-side {
+    width: 100%;
+    border: $border;
+    height: 98vh;
+    margin-left: 10px;
+  }
+}
+
+.draggable {
+  padding: 5px;
+  cursor: pointer;
+  border: none;
+  background-color: aquamarine;
+  border-radius: 7px;
+  margin-top: 5px;
+}

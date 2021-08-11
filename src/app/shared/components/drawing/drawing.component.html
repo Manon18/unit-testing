@@ -2,20 +2,20 @@
   <canvas id="c" width="1500" height="400">
   </canvas>
   <div class="shapes">
-    <form [formGroup]="shapesForm">
-      <div>
+    <form [formGroup]="shapesForm" class="shapes__form">
+      <div class="shapes__form__input-wrapper">
         <label for="width">
           Rectangle Width:
         </label>
         <input id="width" type="text" formControlName="rect_width" width="70px;">
       </div>
-      <div>
+      <div class="shapes__form__input-wrapper">
         <label for="height">
           Rectangle Height:
         </label>
         <input id="height" type="text" formControlName="rect_height" width="70px;">
       </div>
-      <button class="button" type="submit" (click)="submit($event)">Change</button>
+      <button class="button" type="submit" (click)="submit()">Change</button>
     </form>
   </div>
 </div>

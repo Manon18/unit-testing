@@ -1,0 +1,16 @@
+<!--<button (click)="getSelectedRows()">Get Selected Rows</button>-->
+<!--style="height: 400px;"style="height: 400px;"-->
+<div>
+  <h1>{{ appTitle }}</h1>
+  <ag-grid-angular
+    #agGrid
+    class="ag-theme-alpine"
+    [rowData]="rowData"
+    [pagination]="true"
+    [gridOptions]="gridOptions"
+    [paginationAutoPageSize]="true"
+    [suppressMovableColumns]="true"
+    rowSelection="multiple"
+  >
+  </ag-grid-angular>
+</div>

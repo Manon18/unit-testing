@@ -1,0 +1,28 @@
+<div class="container" #dropZone>
+  <div class="left-side" id="myPaletteDiv">
+    <h5 class="left-side__header">Links</h5>
+    <hr>
+      <ul class="left-side__ul" >
+        <ng-container *ngFor="let item of movementItems; index as i;">
+          <li ngDraggable
+             [attr.id]="item.id"
+             [handle]="DemoHandle"
+             [bounds]="dropZone"
+             [inBounds]="inBounds"
+             (started)="startDrag()"
+             (stopped)="endDrag()"
+             (edge)="setEdge($event)"
+             (click)="getStartElement(i, item, $event)"
+             (mouseleave)="over(i, item, $event)"
+          >
+            <div #DemoHandle>{{ item.name }}</div>
+          </li>
+        </ng-container>
+      </ul>
+  </div>
+  <div class="right-side"
+       [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+
+  >
+  </div>
+</div>

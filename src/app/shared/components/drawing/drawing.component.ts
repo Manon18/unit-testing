@@ -1,6 +1,8 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { fabric } from "fabric";
-import {FormControl, FormGroup} from "@angular/forms";
+import { FormControl, FormGroup } from "@angular/forms";
+import { City } from "../../../interfaces/city";
+import { CitiesService } from "../../../services/cities.service";
 
 @Component({
   selector: 'app-drawing',
@@ -8,26 +10,35 @@ import {FormControl, FormGroup} from "@angular/forms";
   styleUrls: ['./drawing.component.scss']
 })
 export class DrawingComponent implements OnInit, AfterViewInit {
-  shapesForm: FormGroup;
-  rectWidth: number;
-  rectHeight: number;
-  rect: any;
+  public shapesForm: FormGroup;
+  public rectWidth: number;
+  public rectHeight: number;
+  public rect: any;
+  public componentName: string;
+  public isSubmitted: boolean;
+  public cities: any;
 
-  constructor() { }
+  constructor(
+    private citiesService: CitiesService
+  ) {
+    this.rectWidth = 1;
+    this.rectHeight = 1;
+    this.componentName = 'drawing page';
+    this.isSubmitted = false;
+    this.cities = [];
 
-  public ngOnInit(): void {
-    this.generateShapesGroup();
-  }
-
-  public ngAfterViewInit() {
-    this.generateAllShapes();
-  }
-
-  public generateShapesGroup(): void {
     this.shapesForm = new FormGroup({
       "rect_width": new FormControl(),
       "rect_height": new FormControl()
     });
+  }
+
+  public ngOnInit(): void {
+    this.getCities();
+  }
+
+  public ngAfterViewInit() {
+    this.generateAllShapes();
   }
 
   public generateAllShapes(): void {
@@ -124,12 +135,15 @@ export class DrawingComponent implements OnInit, AfterViewInit {
     canvas.renderAll();
   }
 
-  public submit(event: Event): void {
+  public submit(): void {
+    this.isSubmitted = true;
+
     this.rect.width = this.shapesForm.controls.rect_width.value;
     this.rect.height = this.shapesForm.controls.rect_height.value
+  }
 
-    console.log(this.rect.width);
-    console.log(this.rect.height);
+  public getCities(): void {
+    this.citiesService.getCities().subscribe((res) => { console.log(res)});
   }
 
 }
