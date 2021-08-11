@@ -4,7 +4,8 @@ import {fabric} from "fabric";
 import {DOCUMENT} from "@angular/common";
 import 'leader-line';
 declare let LeaderLine: any;
-// import LeaderLine from 'leader-line';
+
+import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 
 const $ = go.GraphObject.make;
 
@@ -67,17 +68,32 @@ export class DragNDropDiagramComponent implements OnInit, AfterViewInit {
 
   public ngAfterViewInit() {}
 
-  public startDrag() {
-    this.isDragging = true;
-  }
+  // public startDrag() {
+  //   this.isDragging = true;
+  // }
+  //
+  // public endDrag() {
+  //   this.isDragging = false;
+  // }
+  //
+  // public setEdge(event: any) {
+  //   this.edge = event;
+  // }
 
-  public endDrag() {
-    this.isDragging = false;
-  }
+  // public drop(event: CdkDragDrop<any>) {
+  //   moveItemInArray(this.movementItems, event.previousIndex, event.currentIndex);
+  // }
 
-  public setEdge(event: any) {
-    this.edge = event;
-  }
+  // public drop(event: CdkDragDrop<any>) {
+  //   if (event.previousContainer === event.container) {
+  //     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+  //   } else {
+  //     transferArrayItem(event.previousContainer.data,
+  //       event.container.data,
+  //       event.previousIndex,
+  //       event.currentIndex);
+  //   }
+  // }
 
   public drawLeaderLine(startElement: any, endElement: any) {
     let line = new LeaderLine(startElement, endElement);

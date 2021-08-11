@@ -14,6 +14,7 @@ import { DragNDropDiagramComponent } from './shared/components/drag-n-drop-diagr
 import { AgGridTestComponent } from './shared/components/ag-grid-test/ag-grid-test.component';
 import { GojsAngularModule } from "gojs-angular";
 import { AngularDraggableModule } from 'angular2-draggable';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { AngularDraggableModule } from 'angular2-draggable';
     ReactiveFormsModule,
     NgxDomarrowModule,
     GojsAngularModule,
-    AngularDraggableModule
+    AngularDraggableModule,
+    DragDropModule
   ],
   providers: [],
   bootstrap: [AppComponent]

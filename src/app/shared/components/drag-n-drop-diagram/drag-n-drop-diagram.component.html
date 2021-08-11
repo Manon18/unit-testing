@@ -1,28 +1,22 @@
-<div class="container" #dropZone>
+<div class="container">
   <div class="left-side" id="myPaletteDiv">
     <h5 class="left-side__header">Links</h5>
     <hr>
-      <ul class="left-side__ul" >
-        <ng-container *ngFor="let item of movementItems; index as i;">
-          <li ngDraggable
-             [attr.id]="item.id"
-             [handle]="DemoHandle"
-             [bounds]="dropZone"
-             [inBounds]="inBounds"
-             (started)="startDrag()"
-             (stopped)="endDrag()"
-             (edge)="setEdge($event)"
-             (click)="getStartElement(i, item, $event)"
-             (mouseleave)="over(i, item, $event)"
-          >
-            <div #DemoHandle>{{ item.name }}</div>
-          </li>
-        </ng-container>
-      </ul>
+<!--    <ul-->
+<!--      cdkDropList-->
+<!--      #boxes0="cdkDropList"-->
+<!--      class="groups left-side__ul"-->
+<!--      [cdkDropListData]="boxes0"-->
+<!--      [cdkDropListConnectedTo]="[dropZone]"-->
+<!--      (cdkDropListDropped)="drop($event)"-->
+<!--    >-->
+<!--      <ng-container *ngFor="let item of movementItems; index as i;">-->
+<!--        <li cdkDrag>{{ item.name }}</li>-->
+<!--      </ng-container>-->
+<!--    </ul>-->
   </div>
-  <div class="right-side"
+  <div class="right-side" #dropZone
        [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
-
   >
   </div>
 </div>
