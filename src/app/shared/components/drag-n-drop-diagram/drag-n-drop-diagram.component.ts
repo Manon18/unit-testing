@@ -1,11 +1,29 @@
-import {Component, Input, OnInit, Output, EventEmitter, AfterViewInit, ViewEncapsulation, Inject} from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  Output,
+  EventEmitter,
+  AfterViewInit,
+  ViewEncapsulation,
+  Inject,
+  ViewChild
+} from '@angular/core';
 import * as go from 'gojs';
 import {fabric} from "fabric";
 import {DOCUMENT} from "@angular/common";
 import 'leader-line';
 declare let LeaderLine: any;
 
-import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import {
+  CdkDragDrop,
+  CdkDragEnd,
+  CdkDragEnter,
+  CdkDragMove,
+  CdkDragStart,
+  moveItemInArray,
+  transferArrayItem
+} from '@angular/cdk/drag-drop';
 
 const $ = go.GraphObject.make;
 
@@ -17,15 +35,19 @@ const $ = go.GraphObject.make;
 })
 export class DragNDropDiagramComponent implements OnInit, AfterViewInit {
   public isDragging: boolean;
-  public dropZone: HTMLElement;
-  public startEl: any;
+  public dropZone: any;
   public endEl: any;
   public canvas = new fabric.Canvas('c');
   public start: any;
   public end: any;
   public isRightSide: boolean = false;
-  public firstClick: boolean = false;
-  public secondClick: boolean = false;
+  public state = '';
+  public position = ''
+  public draggedItemIndex: any;
+  public draggingOutsideSourceList: boolean = false;
+  public positionX: number;
+  public positionY: number;
+  public isPointerOverContainer: boolean;
 
   public inBounds = true;
   public edge = {
@@ -68,32 +90,67 @@ export class DragNDropDiagramComponent implements OnInit, AfterViewInit {
 
   public ngAfterViewInit() {}
 
-  // public startDrag() {
-  //   this.isDragging = true;
-  // }
-  //
-  // public endDrag() {
-  //   this.isDragging = false;
-  // }
-  //
-  // public setEdge(event: any) {
-  //   this.edge = event;
+  // public drop(event: CdkDragDrop<any>) {
+  //   console.log(event);
+  //   moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
   // }
 
-  // public drop(event: CdkDragDrop<any>) {
-  //   moveItemInArray(this.movementItems, event.previousIndex, event.currentIndex);
-  // }
+  public drop(event: CdkDragDrop<any>) {
+    // if (event.previousContainer === event.container) {
+    //   moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    // } else {
+    //   transferArrayItem(event.previousContainer.data,
+    //     event.container.data,
+    //     event.previousIndex,
+    //     event.currentIndex);
+    // }
 
-  // public drop(event: CdkDragDrop<any>) {
-  //   if (event.previousContainer === event.container) {
-  //     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-  //   } else {
-  //     transferArrayItem(event.previousContainer.data,
-  //       event.container.data,
-  //       event.previousIndex,
-  //       event.currentIndex);
-  //   }
-  // }
+    this.dropZone = document.getElementById('drop-zone');
+
+    const rect = event.item.element.nativeElement.getBoundingClientRect()
+    event.item.data.top = (rect.top + event.distance.y - this.dropZone.getBoundingClientRect().top) + 'px';
+    event.item.data.left= (rect.left + event.distance.x - this.dropZone.getBoundingClientRect().left) + 'px';
+
+      // this.dropZone.nativeElement.getBoundingClientRect().top)+'px';
+
+    // this.dropZone.nativeElement.getBoundingClientRect().top
+    // event.item.data.left=(rect.left+event.distance.x-this.dropZone.nativeElement.getBoundingClientRect().left)+'px'
+    // this.addField({...event.item.data}, event.currentIndex);
+
+    this.draggingOutsideSourceList = false;
+  }
+
+  dragStarted(event: CdkDragStart) {
+    this.state = 'dragStarted';
+  }
+
+  dragMoved(event: CdkDragMove) {
+    this.position = `> Position X: ${event.pointerPosition.x} - Y: ${event.pointerPosition.y}`;
+
+    this.positionX = event.pointerPosition.x;
+    this.positionY = event.pointerPosition.y;
+
+    console.log(this.position);
+  }
+
+  dragEnded(event: CdkDragEnd, item: any) {
+    this.state = 'dragEnded';
+
+    console.log(event.source.getFreeDragPosition());
+  }
+
+  public cdkDragStarted(event: any, childItem: any, index: number) {
+    this.draggedItemIndex = index;
+  }
+  public cdkDragReleased(event: any, childItem: any, index: number) {
+    this.draggedItemIndex = undefined;
+
+    // childItem.position = this.position;
+  }
+
+  public cdkDragEntered(event: CdkDragEnter) {
+    this.draggingOutsideSourceList = event.container !== event.item.dropContainer;
+  }
 
   public drawLeaderLine(startElement: any, endElement: any) {
     let line = new LeaderLine(startElement, endElement);
@@ -111,9 +168,12 @@ export class DragNDropDiagramComponent implements OnInit, AfterViewInit {
 
   }
 
+  public mouseLeave(event: any) {
+    this.end = event.target;
+  }
+
   public getStartElement(startElIndex: any, item: any, event: any): void {
     this.isDragging = false;
-    this.firstClick = true;
 
     let start = document.getElementById(item.id);
 

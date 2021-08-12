@@ -2,21 +2,32 @@
   <div class="left-side" id="myPaletteDiv">
     <h5 class="left-side__header">Links</h5>
     <hr>
-<!--    <ul-->
-<!--      cdkDropList-->
-<!--      #boxes0="cdkDropList"-->
-<!--      class="groups left-side__ul"-->
-<!--      [cdkDropListData]="boxes0"-->
-<!--      [cdkDropListConnectedTo]="[dropZone]"-->
-<!--      (cdkDropListDropped)="drop($event)"-->
-<!--    >-->
-<!--      <ng-container *ngFor="let item of movementItems; index as i;">-->
-<!--        <li cdkDrag>{{ item.name }}</li>-->
-<!--      </ng-container>-->
-<!--    </ul>-->
+    <ul
+      cdkDragHandle
+      class="groups left-side__ul"
+    >
+      <ng-container *ngFor="let item of movementItems; index as i;">
+        <li cdkDrag
+            [attr.id]="item.id"
+            (cdkDragStarted)="dragStarted($event)"
+            (cdkDragEnded)="dragEnded($event, item)"
+            (cdkDragMoved)="dragMoved($event)"
+            (cdkDragStarted)="cdkDragStarted($event, item, i)"
+            (cdkDragReleased)="cdkDragReleased($event, item, i)"
+            (cdkDragEntered)="cdkDragEntered($event)"
+            [cdkDragData]="item"
+            (click)="getStartElement(i, item, $event)"
+            (mouseleave)="mouseLeave($event)"
+            class="custom-placeholder"
+        >
+          <div>{{ item.name }}</div>
+        </li>
+      </ng-container>
+    </ul>
   </div>
-  <div class="right-side" #dropZone
-       [ngClass]="{ 'top-b': !edge?.top, 'bottom-b': !edge?.bottom, 'left-b': !edge?.left, 'right-b': !edge?.right }"
+  <div class="right-side"
+       id="drop-zone"
+       #dropZone
   >
   </div>
 </div>
